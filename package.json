@@ -1,0 +1,79 @@
+{
+  "name": "sss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./out/main/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "prebuild": "electron-vite build",
+    "build": "cd app/renderer/src/main && npm run build",
+    "pack:mac": "NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --mac",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.aa.vvv",
+    "productName": "sdsd",
+    "files": "app",
+    "asar": false,
+    "directories": {
+      "buildResources": "resource",
+      "output": "release"
+    },
+    "copyright": "Copyright © 2222 111",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "resource/icon.icns"
+    },
+    "dmg": {
+      "background": "resource/background.png",
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 410,
+          "y": 180,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 180,
+          "type": "file"
+        }
+      ],
+      "iconSize": 128
+    },
+    "nsis": {
+      "oneClick": false,
+      "language": "2052",
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "squirrelWindows": {
+      "iconUrl": "https://raw.githubusercontent.com/dengyaolong/geektime-electron/master/img/icon.ico"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@electron-toolkit/utils": "^1.0.2",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "about-window": "^1.15.2",
+    "timer.js": "^1.0.4",
+    "vite": "^4.3.1",
+    "vue": "^3.2.47",
+    "ws": "^8.12.0"
+  },
+  "devDependencies": {
+    "electron": "^22.1.0",
+    "electron-builder": "^23.6.0",
+    "electron-vite": "^1.0.22"
+  }
+}
