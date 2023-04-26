@@ -1,6 +1,9 @@
 import { createApp } from 'vue'
 import "./style.css"
 import App from './App.vue'
+import ElementPlus from 'element-plus'
+import router from './router';
+
 // import './samples/node-api'
 
 // const { ipcRenderer } = require('electron');
@@ -26,8 +29,8 @@ import App from './App.vue'
 
 
 
-createApp(App)
-  .mount('#app')
-  .$nextTick(() => {
-    postMessage({ payload: 'removeLoading' }, '*')
-  })
+const app = createApp(App)
+
+
+app.use(router).use(ElementPlus).mount('#app')
+

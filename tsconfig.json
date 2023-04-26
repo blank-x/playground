@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@renderer/*": ["./src/renderer/src/*"],
+        
+          },
+    },
+
+}
