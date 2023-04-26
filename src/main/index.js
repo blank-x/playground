@@ -25,18 +25,22 @@ if(!gotTheLock){
     win = new BrowserWindow({
       width:client.width,
       height: client.height,
+      frame: false,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false 
       }
     })
-
+    if (process.platform === 'darwin') {
+      win.removeMenu();
+    }
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
       win.loadURL(process.env['ELECTRON_RENDERER_URL'])
     } else {
       win.loadFile(path.join(__dirname, '../renderer/index.html'))
     }
 
+    win.setMenuBarVisibility(false);
 
     // win.loadFile(path.resolve(__dirname,'./index.html'))
     win.on('close', (e) => {

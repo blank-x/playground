@@ -134,6 +134,5 @@ const template = [
     ]
   }
 ];
-const menu = Menu.buildFromTemplate(template);
-Menu.setApplicationMenu(menu);
+Menu.buildFromTemplate(template);
 console.log(isMac);

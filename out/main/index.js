@@ -18,21 +18,26 @@ if (!gotTheLock) {
     win.show();
   });
   app.on("ready", () => {
-    Promise.resolve().then(() => require("./menu-c1183c13.js"));
+    Promise.resolve().then(() => require("./menu-7ac7bac6.js"));
     const client = screen.getPrimaryDisplay().workArea;
     win = new BrowserWindow({
       width: client.width,
       height: client.height,
+      frame: false,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false
       }
     });
+    if (process.platform === "darwin") {
+      win.removeMenu();
+    }
     if (utils.is.dev && process.env["ELECTRON_RENDERER_URL"]) {
       win.loadURL(process.env["ELECTRON_RENDERER_URL"]);
     } else {
       win.loadFile(path.join(__dirname, "../renderer/index.html"));
     }
+    win.setMenuBarVisibility(false);
     win.on("close", (e) => {
       if (willQuitApp) {
         win = null;
