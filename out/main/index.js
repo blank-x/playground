@@ -3,11 +3,12 @@ const utils = require("@electron-toolkit/utils");
 const path$1 = require("path");
 const appIcon = path$1.join(__dirname, "../../resources/wx.png");
 require("console");
-const { app, BrowserWindow, Notification, ipcMain, Tray, Menu, screen, nativeImage } = require("electron");
+const { app, BrowserWindow, Notification, ipcMain, Tray, Menu, screen, globalShortcut } = require("electron");
 const path = require("path");
 require("about-window").default;
 const gotTheLock = app.requestSingleInstanceLock();
 let win;
+let tipWindow;
 let willQuitApp = false;
 if (!gotTheLock) {
   app.quit();
@@ -23,15 +24,13 @@ if (!gotTheLock) {
     win = new BrowserWindow({
       width: client.width,
       height: client.height,
-      frame: false,
+      show: false,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false
       }
     });
-    if (process.platform === "darwin") {
-      win.removeMenu();
-    }
+    console.log("process.platform", process.platform);
     if (utils.is.dev && process.env["ELECTRON_RENDERER_URL"]) {
       win.loadURL(process.env["ELECTRON_RENDERER_URL"]);
     } else {
@@ -62,6 +61,32 @@ if (!gotTheLock) {
     tray.setToolTip("This is my application.");
     tray.setContextMenu(contextMenu);
     win.webContents.openDevTools();
+    globalShortcut.register("Command+P", () => {
+      if (tipWindow) {
+        tipWindow.show();
+      } else {
+        tipWindow = new BrowserWindow({
+          width: 500,
+          height: 80,
+          frame: false,
+          show: false,
+          webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+          }
+        });
+        if (utils.is.dev && process.env["ELECTRON_RENDERER_URL"]) {
+          tipWindow.loadURL(process.env["ELECTRON_RENDERER_URL"]);
+        } else {
+          tipWindow.loadFile(path.join(__dirname, "../renderer/index.html"));
+        }
+        if (process.platform === "darwin") {
+          app.dock.hide();
+          Menu.setApplicationMenu(null);
+        }
+      }
+    });
+    console.log(globalShortcut.isRegistered("Command+P"));
   });
   app.on("before-quit", function() {
     willQuitApp = true;

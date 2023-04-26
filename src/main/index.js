@@ -1,5 +1,5 @@
 const { log } = require('console');
-const  { app, BrowserWindow, Notification, ipcMain, Tray, Menu, screen, nativeImage} = require('electron')
+const  { app, BrowserWindow, Notification, ipcMain, Tray, Menu, screen, globalShortcut} = require('electron')
 const path = require('path')
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import appIcon from '../../resources/wx.png?asset'
@@ -9,6 +9,7 @@ const openAboutWindow  = require('about-window').default;
 const gotTheLock = app.requestSingleInstanceLock()
 
 let win
+let tipWindow;
 let willQuitApp = false
 if(!gotTheLock){
   app.quit()
@@ -20,20 +21,19 @@ if(!gotTheLock){
   })
   app.on('ready', ()=>{
     import('./menu.js')
-    
+
    const client = screen.getPrimaryDisplay().workArea
-    win = new BrowserWindow({
-      width:client.width,
-      height: client.height,
-      frame: false,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false 
-      }
-    })
-    if (process.platform === 'darwin') {
-      win.removeMenu();
+   win = new BrowserWindow({
+    width:client.width,
+    height: client.height,
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false 
     }
+  })
+    console.log('process.platform',process.platform);
+
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
       win.loadURL(process.env['ELECTRON_RENDERER_URL'])
     } else {
@@ -70,7 +70,38 @@ if(!gotTheLock){
     tray.setContextMenu(contextMenu)
 
     win.webContents.openDevTools()
+
+    globalShortcut.register('Command+P', () => {
+       if(tipWindow){
+        tipWindow.show()
+       }else{
+        tipWindow = new BrowserWindow({
+          width:500,
+          height: 80,
+          frame: false,
+          show: false,
+          webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false 
+          }
+        })
+        if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+          tipWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+        } else {
+          tipWindow.loadFile(path.join(__dirname, '../renderer/index.html'))
+        }
+        if (process.platform === 'darwin') {
+          app.dock.hide(); // 隐藏 Dock 栏图标
+          Menu.setApplicationMenu(null); // 替换菜单栏为一个空的菜单
+        }
+       }
+    })
+
+
+    console.log(globalShortcut.isRegistered('Command+P'));
+
   })
+
   app.on('before-quit',function(){
     willQuitApp = true
     win.close()

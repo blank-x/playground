@@ -6,59 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-vite preview",
-    "dev": "electron-vite dev",
+    "dev": "electron-vite dev -w",
     "prebuild": "electron-vite build",
     "build": "cd app/renderer/src/main && npm run build",
     "pack:mac": "NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --mac",
-    "postinstall": "electron-builder install-app-deps"
-  },
-  "build": {
-    "appId": "com.aa.vvv",
-    "productName": "sdsd",
-    "files": "app",
-    "asar": false,
-    "directories": {
-      "buildResources": "resource",
-      "output": "release"
-    },
-    "copyright": "Copyright © 2222 111",
-    "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ],
-      "icon": "resource/icon.icns"
-    },
-    "dmg": {
-      "background": "resource/background.png",
-      "window": {
-        "width": 540,
-        "height": 380
-      },
-      "contents": [
-        {
-          "x": 410,
-          "y": 180,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 180,
-          "type": "file"
-        }
-      ],
-      "iconSize": 128
-    },
-    "nsis": {
-      "oneClick": false,
-      "language": "2052",
-      "perMachine": true,
-      "allowToChangeInstallationDirectory": true
-    },
-    "squirrelWindows": {
-      "iconUrl": "https://raw.githubusercontent.com/dengyaolong/geektime-electron/master/img/icon.ico"
-    }
+    "postinstall": "electron-builder install-app-deps",
+    "build:win": "electron-builder --win --config",
+    "build:mac": "electron-builder --mac --config",
+    "build:linux": "electron-builder --linux --config"
   },
   "author": "",
   "license": "ISC",
