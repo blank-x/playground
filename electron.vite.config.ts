@@ -1,21 +1,37 @@
-import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
+import {resolve} from 'path'
+import {defineConfig, externalizeDepsPlugin} from 'electron-vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    resolve: {
+      alias: {
+        '@renderer': resolve('src/renderer/src'),
+        '@utils': resolve('src/utils'),
+      }
+    },
   },
   preload: {
     plugins: [externalizeDepsPlugin()]
   },
   renderer: {
+    build: {
+      rollupOptions: {
+        input: {
+          major: resolve(__dirname, 'src/renderer/major/index.html'),
+          search: resolve(__dirname, 'src/renderer/search/index.html'),
+        }
+      },
+    },
     resolve: {
       alias: {
-        '@renderer': resolve('src/renderer/src')
+        '@major': resolve('src/renderer/major/src'),
+        '@search': resolve('src/renderer/search/src'),
+        '@utils': resolve('src/utils'),
       }
     },
     plugins: [

@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw as RouteRecordRawCopy } from 'vue-router'
-import Layout from '@renderer/layout/index.vue'
-import Doc from '@renderer/pages/doc/index.vue'
+import Layout from '@major/layout/index.vue'
+import Doc from '@major/pages/doc/index.vue'
 
 export type RouteRecordRaw = RouteRecordRawCopy & {
   hidden?: boolean
@@ -12,7 +12,7 @@ export type RouteRecordRaw = RouteRecordRawCopy & {
 export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/doc',
-    component: Layout,  
+    component: Layout,
     redirect: '/doc/index',
     children: [
       {
@@ -29,7 +29,7 @@ export const constantRoutes: RouteRecordRaw[] = [
   },
   {
     path: '',
-    component: Layout,  
+    component: Layout,
   },
 ]
 
