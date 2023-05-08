@@ -5,20 +5,29 @@ import createSearchWindow from './searchWindow'
 
 
 async function start(app){
-  await app.whenReady()
-  // 开发环境，调试使用
-  if(is.dev){
-    const searchWindow = await createSearchWindow(app)
-    moveSecondScreen(searchWindow, {width: 500, height: 80, x: 200, y: -200});
-    searchWindow.webContents.openDevTools({mode: 'undocked'});
+  app.whenReady().then(()=>{
+    // 开发环境，调试使用
+    if(is.dev){
+      // (async function(){
+      //   const searchWindow = await createSearchWindow(app)
+      //   moveSecondScreen(searchWindow, {width: 500, height: 80, x: 200, y: -200});
+      //   searchWindow.webContents.openDevTools({mode: 'undocked'});
+      //   searchWindow.removeAllListeners('blur')
+      // })();
 
-    // const mainWindow = createMainWindow(app)
-    // moveSecondScreen(mainWindow, {width: 500, height: 80, x: 200, y: -200});
-    // mainWindow.webContents.openDevTools();
-  } else {
-    createMainWindow(app)
-    createSearchWindow(app)
-  }
+      (async () => {
+        const mainWindow = await createMainWindow(app)
+        moveSecondScreen(mainWindow);
+        mainWindow.webContents.openDevTools({mode: 'bottom'});
+      })();
+
+
+    } else {
+      createMainWindow(app)
+      createSearchWindow(app)
+    }
+  })
+
 }
 
 // 单程序实例

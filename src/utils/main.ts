@@ -1,13 +1,13 @@
 import { screen } from 'electron'
-let hasMove = false;
 
 /*
 * 主程序相关的工具函数
 * */
-export function moveSecondScreen(win, bounds={}) {
+export function moveSecondScreen(win) {
   // 测试的时候讲窗口放在第二个屏幕上
   const displays = screen.getAllDisplays()
   const primaryDisplay = screen.getPrimaryDisplay()
+  let hasMove = false;
 
   // 设置窗口的位置和大小
   const externalDisplay = displays.find((display) => {
@@ -20,6 +20,6 @@ export function moveSecondScreen(win, bounds={}) {
   })
 
   if (externalDisplay && !hasMove) {
-    win.setBounds({...externalDisplay.bounds, ...bounds})
+    win.setBounds({...externalDisplay.bounds, y: -1000})
   }
 }

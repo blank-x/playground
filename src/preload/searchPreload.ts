@@ -1,17 +1,20 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
+
 
 contextBridge.exposeInMainWorld('myAPI', {
   desktop: true,
 })
 
-
-
 const api = {}
 
 if (process.contextIsolated) {
   try {
-    contextBridge.exposeInMainWorld('electron', {})
+    contextBridge.exposeInMainWorld('electron', {
 
+    })
+    contextBridge.exposeInMainWorld('dddd', {
+      searchResize: () => ipcRenderer.invoke('search:resize'),
+    })
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
     console.error(error)

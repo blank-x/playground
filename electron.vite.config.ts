@@ -16,7 +16,16 @@ export default defineConfig({
     },
   },
   preload: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    build: {
+      rollupOptions: {
+        input: {
+          searchPreload: resolve(__dirname, 'src/preload/searchPreload.ts'),
+          index: resolve(__dirname, 'src/preload/index.ts'),
+        },
+      },
+    },
+
   },
   renderer: {
     build: {
