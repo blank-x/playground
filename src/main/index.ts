@@ -5,33 +5,34 @@ import createSearchWindow from './searchWindow'
 
 
 async function start(app){
-  app.whenReady().then(()=>{
-    // 开发环境，调试使用
-    if(is.dev){
-      // (async function(){
-      //   const searchWindow = await createSearchWindow(app)
-      //   moveSecondScreen(searchWindow, {width: 500, height: 80, x: 200, y: -200});
-      //   searchWindow.webContents.openDevTools({mode: 'undocked'});
-      //   searchWindow.removeAllListeners('blur')
-      // })();
-
-      (async () => {
-        const mainWindow = await createMainWindow(app)
-        moveSecondScreen(mainWindow);
-        mainWindow.webContents.openDevTools({mode: 'bottom'});
-      })();
-
-
-    } else {
-      createMainWindow(app)
-      createSearchWindow(app)
+  await app.whenReady()
+  // 开发环境，调试使用
+  if(is.dev){
+    const searchWindowFn = async function(){
+      const searchWindow = await createSearchWindow(app)
+      moveSecondScreen(searchWindow);
+      searchWindow.webContents.openDevTools({mode: 'undocked'});
+      searchWindow.removeAllListeners('blur')
     }
-  })
 
+    const mainWindowFn = async () => {
+      const mainWindow = await createMainWindow(app)
+      moveSecondScreen(mainWindow);
+      mainWindow.webContents.openDevTools({mode: 'bottom'});
+    };
+    await Promise.all([
+      mainWindowFn(),
+      searchWindowFn()
+    ])
+
+  } else {
+    createMainWindow(app)
+    createSearchWindow(app)
+  }
 }
 
 // 单程序实例
-(function startSingleApp(){
+function startSingleApp(){
   const gotSingleLock = app.requestSingleInstanceLock()
   if (!gotSingleLock) {
     // 如果获取锁失败，则说明应用程序已经在运行，退出当前实例
@@ -46,7 +47,9 @@ async function start(app){
       }
     })
   }
-})()
+}
+
+startSingleApp();
 
 
 function handleIPC() {

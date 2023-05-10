@@ -11,9 +11,6 @@ export default async function (app) {
     if (win.isMinimized()) win.restore()
     win.show()
   })
-  console.log(22222)
-
-  await app.whenReady()
 
   // import('../accessory/menu.js');
   // 获取屏幕的宽高
