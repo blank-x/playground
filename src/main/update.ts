@@ -2,7 +2,7 @@ import { ipcMain, app } from 'electron';
 import { autoUpdater } from 'electron-updater'
 import path from 'path'
 // 检测更新，在你想要检查更新的时候执行，renderer事件触发后的操作自行编写
-function updateHandle ( mainWindow) {
+export function updateAll ( mainWindow) {
   let message = {
     error: 'update error',
     checking: 'updating...',
@@ -67,4 +67,6 @@ function updateHandle ( mainWindow) {
   });
 
 }
-export default updateHandle
+export function updateRender(){
+
+}

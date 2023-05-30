@@ -1,5 +1,6 @@
 appId: com.playground.app
 productName: playground
+asar: false
 directories:
   buildResources: resource
 files:

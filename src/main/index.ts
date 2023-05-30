@@ -35,8 +35,8 @@ class App {
     // 开发环境，调试使用
     const mainWindowInstance = MainWindow.create()
     const win = mainWindowInstance.getWin()
-    console.log(11122221)
-    updateHandle(win)
+    // mac 下 没有开发者账号，无法签名，实际效果未验证，先注释掉该功能
+    // updateHandle(win)
     win.webContents.openDevTools({mode: 'detach'});
 
     // SearchWindow.create()
