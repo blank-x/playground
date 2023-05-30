@@ -1,24 +1,17 @@
-import { contextBridge } from 'electron';
-
-contextBridge.exposeInMainWorld('myAPI', {
-  desktop: true,
-})
+import {contextBridge, ipcRenderer} from 'electron';
 
 
 
-const api = {}
 
 if (process.contextIsolated) {
   try {
-    contextBridge.exposeInMainWorld('electron', {})
+    contextBridge.exposeInMainWorld('electron', {
+      onUpdate: (cb) => ipcRenderer.on('message', cb),
 
-    contextBridge.exposeInMainWorld('api', api)
+    })
+
   } catch (error) {
     console.error(error)
   }
 } else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
 }

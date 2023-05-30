@@ -1,38 +1,62 @@
 <template>
-  <div class="app">
-    <input type="text" @input="onSearchChange">
+  <div class="app" @keydown.down.prevent="selectItem(1)" @keydown.up.prevent="selectItem(-1)">
+    <input type="text" @input="onSearchChange" v-model="searchValue" @keydown.enter="openLocalAppByEnter" >
 
-    <ul class="searchRes" v-if="searchResList.length>0">
-      <li v-for="item in searchResList">{{item}}</li>
+    <ul class="searchRes" v-if="searchResList.length>0" @keydown.enter="openLocalAppByEnter">
+      <li class="search-item" @mouseenter="onHover(index)" @click="openLocalApp(item)" v-for="(item, index) in searchResList" :class="{'ishover': index=== hoverIndex}">
+        <img class="img" alt="" :src="item.icon" />
+
+        <div class="name">{{item.name}}</div>
+        <div class="path">{{item.path}}</div>
+      </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted,ref } from 'vue'
+const { searchEverying, searchResize, openApp } = (window as unknown as SearchWindow).search;
 export default defineComponent({
   setup() {
-    const searchResList = ref([])
-    const onSearchChange = (e) => {
-      const temp = [];
-      searchResList.value = temp
-      if(e.target.value){
-        temp.push(e.target.value)
-        temp.push(e.target.value)
-        temp.push(e.target.value)
-        temp.push(e.target.value)
-        temp.push(e.target.value)
-        temp.push(e.target.value)
-      }
-
-      window.dddd.searchResize()
-    }
+    console.log('search setup')
+    onMounted(() => {
+      searchResize()
+    })
+    return {}
+  },
+  data() {
     return {
-      searchResList,
-      onSearchChange
+      searchResList: [],
+      searchValue: '',
+      hoverIndex: 0,
     }
   },
-  created() {}
+  methods:{
+    async onSearchChange(e){
+      this.searchResList = await searchEverying(this.searchValue);
+      searchResize()
+    },
+    onHover(idx){
+      this.hoverIndex = idx
+    },
+    openLocalApp(item){
+      openApp(item.renderPath)
+    },
+    openLocalAppByEnter(){
+      const curItem = this.searchResList[this.hoverIndex];
+      this.openLocalApp(curItem);
+    },
+    selectItem(increment){
+      const target = this.hoverIndex + increment;
+      if(target >= this.searchResList.length){
+        this.hoverIndex = 0;
+      } else if(target < 0 ){
+        this.hoverIndex = this.searchResList.length -1;
+      } else {
+        this.hoverIndex = target
+      }
+    }
+  },
 })
 </script>
 
@@ -41,40 +65,72 @@ export default defineComponent({
   -webkit-app-region: drag;
   cursor: move;
   width: 100%;
-  min-height: 80px;
-  background-color: rgba(255,255,255,.2);
-  padding-bottom: 16px;
+  background-color: rgba(255,255,255,.7);
+  padding-bottom: 8px;
+  padding-top: 8px;
   box-sizing: border-box;
 }
 input{
-  box-sizing: border-box;
   width: calc(100% - 32px);
-  height: 48px;
-  margin-top: 16px;
   margin-left: 16px;
   display: inline-block;
-  -webkit-app-region: no-drag;
-  font-size: 28px;
+  font-size: 20px;
   line-height: 48px;
   outline: none;
-  //border-radius: 10px;
   border: none;
-  padding: 4px 20px 4px 20px;
-  background-color: rgba(255,255,255,.5);
-
+  padding: 6px 20px 6px 20px;
+  background-color: rgba(220, 220, 220);
+  caret-color: red;
 }
 .searchRes{
   margin-left: 16px;
   margin-right: 16px;
-  padding-top: 10px;
-  background-color: rgba(255,255,255,.6);
-  -webkit-app-region: no-drag;
-
+  background-color: rgba(220, 220, 220);
+  max-height: 420px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 3px;
+    background-color: rgba(220, 220, 220);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(79, 32, 111, 0.4);
+  }
 }
-.searchRes li{
-  line-height: 30px;
-  padding-left: 20px;
+.search-item{
+  height: 60px;
+  //padding-left: 20px;
+  font-size: 16px;
+  cursor: default;
+  display: grid;
+  grid-template-columns: 60px auto;
+  grid-template-rows: 24px 20px;
+  align-items: center ;
+  align-content: center;
+  &.ishover{
+    background-color: rgba(79, 32, 111, 0.4);
+    color: #fff;
+  }
+  .img{
+    width: 100%;
+    height: auto;
+    padding:6px;
+    grid-row-start: 1;
+    grid-row-end: 3;
+  }
+  .name{
+    //padding-top: 3px;
+    font-size: 20px;
+    line-height: 20px;
+  }
+  .path{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 30px;
+    line-height: 20px;
+    font-size: 14px;
 
-  font-size: 20px;
+  }
 }
+
 </style>

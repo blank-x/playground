@@ -1,13 +1,16 @@
-appId: com.electron.app
-productName: electron-app
+appId: com.playground.app
+productName: playground
 directories:
   buildResources: resource
 files:
   - '!**/.vscode/*'
   - '!src/*'
+  - '!test/*'
+  - '!release/*'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md,pkg.md,readme.md,tailwind.config.js,postcss.config.js}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - '!{file.d.ts}'
 asarUnpack:
   - '**/*.{node,dll}'
 win:
@@ -38,4 +41,4 @@ appImage:
 npmRebuild: false
 publish:
   provider: generic
-  url: https://example.com/auto-updates
+  url: http://localhost:3000

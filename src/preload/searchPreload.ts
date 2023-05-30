@@ -12,8 +12,10 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('electron', {
 
     })
-    contextBridge.exposeInMainWorld('dddd', {
+    contextBridge.exposeInMainWorld('search', {
       searchResize: () => ipcRenderer.invoke('search:resize'),
+      searchEverying: (value) => ipcRenderer.invoke('search:everying', value),
+      openApp: (appPath) => ipcRenderer.invoke('search:openApp', appPath),
     })
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
