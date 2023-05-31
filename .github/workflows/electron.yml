@@ -11,7 +11,8 @@ jobs:
   app:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-latest]
+#        os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -33,7 +34,8 @@ jobs:
       # 运行构建脚本
       - name: Build
         run: npm run build:app
-
+  release:
+    steps:
       - name: test111
         run: echo ${{ github.sha }} > Release.txt
       - name: Test2
@@ -42,4 +44,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: Release.txt
+
 
