@@ -33,7 +33,8 @@ jobs:
 
       # 运行构建脚本
       - name: Build
-        run: npm run build:app
+        run: |
+          npm run build:app
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
