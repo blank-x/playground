@@ -82,3 +82,4 @@ export const electronAPI = {
 //         window.electron = electronAPI;
 //     }
 // }
+console.log(1111)
