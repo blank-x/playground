@@ -3,7 +3,7 @@ import {is, moveSecondScreen} from '@utils';
 import log from 'electron-log'
 import MainWindow from './mainWindow'
 import SearchWindow from './searchWindow'
-import updateHandle from './update'
+// import updateHandle from './update'
 
 log.info('App starting...')
 
