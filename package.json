@@ -9,7 +9,7 @@
     "preview": "electron-vite preview",
     "build": "electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "build:app": "npm run build && electron-builder",
+    "release": "npm run build && electron-builder",
     "update:server": "cd dist1 && http-server -p 3000"
   },
   "author": "",
