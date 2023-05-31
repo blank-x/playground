@@ -8,8 +8,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  docs:
-    runs-on: ubuntu-latest
+  app:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v2
@@ -28,6 +31,6 @@ jobs:
         run: npm ci --include=dev
 
       # 运行构建脚本
-      - name: Build 
-        run: npm run build:mac
-      
+      - name: Build
+        run: npm run build:app
+

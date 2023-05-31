@@ -12,6 +12,7 @@ files:
   - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md,pkg.md,readme.md,tailwind.config.js,postcss.config.js}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
   - '!{file.d.ts}'
+  - '!{.github/**}'
 asarUnpack:
   - '**/*.{node,dll}'
 win:

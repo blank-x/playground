@@ -9,9 +9,7 @@
     "preview": "electron-vite preview",
     "build": "electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "build:win": "npm run build && electron-builder --win --config",
-    "build:mac": "npm run build && electron-builder --mac --config",
-    "build:linux": "npm run build && electron-builder --linux --config",
+    "build:app": "npm run build && electron-builder",
     "update:server": "cd dist1 && http-server -p 3000"
   },
   "author": "",
@@ -34,7 +32,6 @@
     "electron-builder": "^23.6.0",
     "electron-vite": "^1.0.22",
     "element-plus": "^2.3.5",
-    "dmg-license": "^1.0.11",
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.23",
     "sass": "^1.62.0",
