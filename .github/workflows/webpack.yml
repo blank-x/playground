@@ -25,7 +25,7 @@ jobs:
 
       # 如果缓存没有命中，安装依赖
       - name: Install dependencies
-        run: npm install
+        run: npm ci --include=dev
 
       # 运行构建脚本
       - name: Build 
