@@ -1,6 +1,5 @@
 appId: com.playground.app
 productName: playground
-asar: false
 directories:
   buildResources: resource
 files:
@@ -15,6 +14,9 @@ files:
   - '!{.github/**}'
 asarUnpack:
   - '**/*.{node,dll}'
+
+afterPack: afterPack.js
+
 win:
   executableName: electron-app
   target: nsis
@@ -42,4 +44,5 @@ appImage:
 npmRebuild: false
 publish:
   provider: github
-#  url: http://localhost:3000
+  owner: blank-x
+  repo: playground

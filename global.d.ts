@@ -7,6 +7,10 @@ interface SearchWindow extends Window{
 }
 
 interface MainWindow extends Window{
-    electron: { onUpdate: (cb) => void };
+    electron: {
+        onUpdate: (cb) => void;
+        triggerRenderUpdate: () => void;
+        triggerAllUpdate: () => void;
+    };
 }
 

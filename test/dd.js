@@ -1,5 +1,3 @@
-const path = require('path')
-const fs = require('fs')
-const {pinyin} = require('pinyin-pro')
+const zlib = require('zlib');
 
-console.log(pinyin("Ni hao", {toneType: 'none'}))
+zlib.gu

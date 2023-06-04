@@ -3,7 +3,6 @@ import {is, moveSecondScreen} from '@utils';
 import log from 'electron-log'
 import MainWindow from './mainWindow'
 import SearchWindow from './searchWindow'
-// import updateHandle from './update'
 
 log.info('App starting...')
 
@@ -25,10 +24,11 @@ class App {
       const win = mainWindowInstance.getWin()
       // moveSecondScreen(win);
       win.webContents.openDevTools({mode: 'detach'});
-      // updateHandle(win)
     };
     mainWindowFn()
     // searchWindowFn()
+    // updateRender()
+
   }
   async start(){
     await app.whenReady()
@@ -36,10 +36,9 @@ class App {
     const mainWindowInstance = MainWindow.create()
     const win = mainWindowInstance.getWin()
     // mac 下 没有开发者账号，无法签名，实际效果未验证，先注释掉该功能
-    // updateHandle(win)
-    win.webContents.openDevTools({mode: 'detach'});
 
     // SearchWindow.create()
+    // updateRender()
   }
   startSingleApp(){
     const gotSingleLock = app.requestSingleInstanceLock()
@@ -48,7 +47,7 @@ class App {
       app.quit()
     } else {
       if(is.dev){
-        this.start();
+        this.devStart();
       }else{
         this.start();
       }

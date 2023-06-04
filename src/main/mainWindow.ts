@@ -4,6 +4,7 @@ import {EventEmitter} from "events";
 import {is} from "@utils";
 import appIcon from '../../resources/wx.png?asset'
 import log from 'electron-log'
+import { updateRender, updateAll, updateAllHandler } from './update'
 
 
 class MainWindow extends EventEmitter{
@@ -22,7 +23,7 @@ class MainWindow extends EventEmitter{
     this.init();
     this.bindAppEvent();
     this.bindWinEvent();
-    console.log('create')
+    this.ipcBind();
 
   }
   init() {
@@ -92,6 +93,15 @@ class MainWindow extends EventEmitter{
   }
   getWin() {
     return this.win;
+  }
+  ipcBind() {
+    updateAll(this.win)
+    ipcMain.handle('main:triggerAllUpdate', async () => {
+      updateAllHandler()
+    })
+    ipcMain.handle('main:triggerRenderUpdate', async () => {
+      updateRender()
+    })
   }
 }
 
