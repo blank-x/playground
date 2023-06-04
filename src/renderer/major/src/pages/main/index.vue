@@ -1,6 +1,6 @@
 <template>
   <div >
-    <C1 :model-value="da" @update:modelValue="update" />
+    <C1 :model-value="da" @update:modelValue="update" />111
     <el-button @click="getAllUpdate">获取总量更新</el-button>
     <el-button @click="getRenderUpdate">获取热更新</el-button>
     <pre>{{updateString}}</pre>
