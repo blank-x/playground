@@ -12,7 +12,7 @@ export function updateAll(mainWindow) {
   }
   // const isDevelopment = process.env.NODE_ENV === 'development'
   //
-  // autoUpdater.forceDevUpdateConfig = true
+  autoUpdater.forceDevUpdateConfig = true
   //
   // autoUpdater.setFeedURL(isDevelopment ? 'http://localhost:3000' : "http://localhost:3000")
 
